@@ -1,15 +1,17 @@
 <?php
-        session_destroy();
         include("config.php");
         
+        $fileid = $_POST["fileid"];
         $hash = $_POST["hash"];
 
-        $dbQuery=$db->prepare("select * from secure_files where hash=:hash");
-        $dbParams = array('hash'=>$hash);
+        $dbQuery=$db->prepare("select filename from files where id=:fileid");
+        $dbParams = array('fileid'=>$fileid);
         $dbQuery->execute($dbParams);
         $dbRow=$dbQuery->fetch(PDO::FETCH_ASSOC);
 
-        $file=$dbRow["pathtofile"];
+        $file = "vault/files/" . $dbRow["filename"];
+		
+		$_SESSION["download"] = 1;
 
         if (file_exists($file)) {
             header('Content-Description: File Transfer');

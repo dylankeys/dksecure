@@ -10,14 +10,14 @@
 	}
 	else {
 		
-		header("Location: index.php?error=No file requested. Invalid URL.");
+		header("Location: ../auth/?error=No file requested. Invalid URL.");
 	}
 
     if (isset($_POST["action"]) && $_POST["action"]=="login")
     {
         $_SESSION["user"] = $_POST["email"];
 
-        header("Location: ../?id=" . $_POST["hash"]);
+        header("Location: ../vault/?id=" . $_POST["hash"]);
 
     }
     else
@@ -91,7 +91,7 @@
 					
 					<input type="hidden" name="hash" value="<?php echo $hash; ?>">
 					<input type="hidden" name="action" value="login">
-					<input style="float:right" type="submit" value="Access" class="btn btn-primary" role="button">
+					<button style="float:right" type="submit" class="btn btn-primary">Access&nbsp;&nbsp;<i class="fas fa-unlock"></i></button>
 					
 				</div>
 			</div>

@@ -4,44 +4,7 @@
 
   if(isset($_GET["id"])) {
     $hash = $_GET["id"];
-    
-    $dbQuery=$db->prepare("select * from secure_files where hash=:hash");
-    $dbParams = array('hash'=>$hash);
-    $dbQuery->execute($dbParams);
-    $fileCount = $dbQuery->rowCount();
-
-    if($fileCount < 1) {
-      $error = "File does not exist.";
-    }
-    else {
-      $dbRow=$dbQuery->fetch(PDO::FETCH_ASSOC);
-
-      $filename=$dbRow["filename"];
-      $auth=$dbRow["auth"];
-
-      if(isset($_SESSION["user"])) { 
-        $user = $_SESSION["user"];
-      }
-      else {
-        header("Location: auth/?id=" . $hash);
-      }
-
-      $authenticatedUsers = explode(",", $auth);
-
-      foreach ($authenticatedUsers as $authenticatedUser) {
-        if($authenticatedUser == $user) {
-          $_SESSION["auth"] = 1;
-        }
-      }
-
-      if($_SESSION["auth"] != 1)
-      {
-        header("Location: auth/?error=You%20do%20not%20have%20permission%20to%20access%20this%20file&id=" . $hash);
-      }
-    }
-  }
-  else {
-    $error = "No file requested. Invalid URL.";
+	header("Location: ../auth/?id=" . $hash);
   }
 ?>
 <!doctype html>
@@ -82,29 +45,17 @@
       </nav>
       <br>
 
-      <?php
-      if (isset($error)) {
-        echo "<h1 style='color:red'>".$error."</h1>";
-      }
-      else {
-      ?>
-      <form method="post" action="download.php">
+      <form method="get" action="auth/">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title"><?php echo $filename; ?></h5>
+            <h5 class="card-title">Please provide a file ID to access</h5>
             
-            
-            <i class="far fa-folder-open fa-5x"></i>
-            
-            <input type="hidden" name="hash" value="<?php echo $hash; ?>">
-            <button style="float:right" type="submit" class="btn btn-primary">Download&nbsp;<i class='far fa-arrow-alt-circle-down'></i></button>
+            <input type="text" name="id" class="form-control" placeholder="Enter file ID"><br>
+            <button style="float:right" type="submit" class="btn btn-primary">Access&nbsp;&nbsp;<i class="fas fa-arrow-right"></i></button>
             
           </div>
         </div>
       </form>
-      <?php
-      }
-      ?>
 
     </div>
 
