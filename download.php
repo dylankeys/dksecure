@@ -3,6 +3,8 @@
         
         $fileid = $_POST["fileid"];
         $hash = $_POST["hash"];
+        $user = $_POST["user"];
+		$time = time();
 
         $dbQuery=$db->prepare("select filename from files where id=:fileid");
         $dbParams = array('fileid'=>$fileid);
@@ -10,6 +12,11 @@
         $dbRow=$dbQuery->fetch(PDO::FETCH_ASSOC);
 
         $file = "vault/files/" . $dbRow["filename"];
+		
+		$dbQuery=$db->prepare("insert into downloads values(null,:fileid,:user,:time)");
+        $dbParams = array('fileid'=>$fileid, 'user'=>$user, 'time'=>$time);
+        $dbQuery->execute($dbParams);
+        $dbRow=$dbQuery->fetch(PDO::FETCH_ASSOC);
 		
 		$_SESSION["download"] = 1;
 

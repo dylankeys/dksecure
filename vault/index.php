@@ -73,7 +73,7 @@
 		<meta name="author" content="">
 		<link rel="icon" href="pix/favicon.ico">
 
-		<title>DK Dev</title>
+		<title>DK Secure | Vault</title>
 
 		<!-- Bootstrap core CSS -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
@@ -89,15 +89,15 @@
 
 		<div class="container" style="padding-top: 20px;">
 		  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="#">DK Secure</a>
+			<a class="navbar-brand" href="../">DK Secure</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<!--<span class="logged-in">
-				<p>Logged in as Dylan Keys</p>
-			  </span>-->
+				<span class="logged-in">
+				<p>Logged in as <?php echo $user; ?> (<a href="logout.php">Log out</a>)</p>
+			  </span>
 			</div>
 		  </nav>
 		  <br>
@@ -116,6 +116,7 @@
 								<h5 class="card-title"><?php echo $file; ?></h5>
 								<i class="far fa-folder-open fa-5x"></i>
 								
+								<input type="hidden" name="user" value="<?php echo $user; ?>">
 								<input type="hidden" name="fileid" value="<?php echo $fileid; ?>">
 								<button style="float:right" type="submit" class="btn btn-primary">Download&nbsp;&nbsp;<i class='far fa-arrow-alt-circle-down'></i></button>
 					
