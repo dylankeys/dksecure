@@ -7,10 +7,20 @@
 
     if(isset($_GET["id"])) {
     	$hash = $_GET["id"];
+		
+		$dbQuery=$db->prepare("select * from files where hash=:hash");
+		$dbParams = array('hash'=>$hash);
+		$dbQuery->execute($dbParams);
+		$fileCount = $dbQuery->rowCount();
+
+		if($fileCount < 1) {
+			$error = "File does not exist. Please enter a valid file ID below.";
+			header("Location: ../?error=" . $error);
+		}
 	}
 	else {
-		
-		header("Location: ../auth/?error=No file requested. Invalid URL.");
+		$error = "File ID not set. Please enter a valid file ID below.";
+		header("Location: ../?error=" . $error);
 	}
 
     if (isset($_POST["action"]) && $_POST["action"]=="login")
@@ -80,7 +90,7 @@
 		<form name="login" method="post" action="index.php">
 			<div class="card">
 				<div class="card-body">
-					<h5 class="card-title">Provide email to access file</h5>
+					<h5 class="card-title">Provide email to access file (ID: <?php echo $hash; ?>)</h5>
 					
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">

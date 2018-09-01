@@ -19,50 +19,45 @@
 		$dbQuery->execute($dbParams);
 		$fileCount = $dbQuery->rowCount();
 
-		if($fileCount < 1) {
-			$error = "File does not exist.";
+		if($fileCount > 1) {
+			$_SESSION["multifile"] = 1;
 		}
 		else {
-			if($fileCount > 1) {
-				$_SESSION["multifile"] = 1;
-			}
-			else {
-				$_SESSION["multifile"] = 0;
-			}
-			
-			$files = array();
-			
-			while ($dbRow = $dbQuery->fetch(PDO::FETCH_ASSOC))
-			{
-				$files[$dbRow["id"]] = $dbRow["filename"];
-			}
+			$_SESSION["multifile"] = 0;
+		}
+		
+		$files = array();
+		
+		while ($dbRow = $dbQuery->fetch(PDO::FETCH_ASSOC))
+		{
+			$files[$dbRow["id"]] = $dbRow["filename"];
+		}
 
-			if(isset($_SESSION["user"])) { 
-				$user = $_SESSION["user"];
-			}
-			else {
-				header("Location: ../auth/?id=" . $hash);
-			}
-			
-			$dbQuery=$db->prepare("select * from auth where hash=:hash");
-			$dbParams = array('hash'=>$hash);
-			$dbQuery->execute($dbParams);
-			$dbRow=$dbQuery->fetch(PDO::FETCH_ASSOC);
-			
-			$auth = $dbRow["users"];
-			
-			$authenticatedUsers = explode(",", $auth);
+		if(isset($_SESSION["user"])) { 
+			$user = $_SESSION["user"];
+		}
+		else {
+			header("Location: ../auth/?id=" . $hash);
+		}
+		
+		$dbQuery=$db->prepare("select * from auth where hash=:hash");
+		$dbParams = array('hash'=>$hash);
+		$dbQuery->execute($dbParams);
+		$dbRow=$dbQuery->fetch(PDO::FETCH_ASSOC);
+		
+		$auth = $dbRow["users"];
+		
+		$authenticatedUsers = explode(",", $auth);
 
-			foreach ($authenticatedUsers as $authenticatedUser) {
-				if($authenticatedUser == $user) {
-					$_SESSION["auth"] = 1;
-				}
+		foreach ($authenticatedUsers as $authenticatedUser) {
+			if($authenticatedUser == $user) {
+				$_SESSION["auth"] = 1;
 			}
+		}
 
-			if($_SESSION["auth"] != 1)
-			{
-				header("Location: ../auth/?error=You%20do%20not%20have%20permission%20to%20access%20this%20file&id=" . $hash);
-			}
+		if($_SESSION["auth"] != 1)
+		{
+			header("Location: ../auth/?error=You%20do%20not%20have%20permission%20to%20access%20this%20file&id=" . $hash);
 		}
 	}
 	else {
