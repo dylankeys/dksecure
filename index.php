@@ -50,7 +50,7 @@
           <div class="card-body">
             <h5 class="card-title">Please provide a file ID to access</h5>
             
-            <input type="text" name="id" class="form-control" placeholder="Enter file ID"><br>
+            <input type="text" name="id" class="form-control" placeholder="Enter file ID" required><br>
             <button style="float:right" type="submit" class="btn btn-primary">Access&nbsp;&nbsp;<i class="fas fa-arrow-right"></i></button>
             
           </div>
