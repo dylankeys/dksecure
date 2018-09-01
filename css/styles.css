@@ -52,3 +52,23 @@ html {
     background-color: #fff;
     border-color: #ffd000;
 }
+
+@media only screen and (min-width: 993px) {
+	.navbar-text-nav {
+		display: none;
+	}
+	
+	.navbar-text-collapsed {
+		display: inherit;
+	}
+} 
+
+@media only screen and (max-width: 992px) {
+	.navbar-text-nav {
+		display: none;
+	}
+	
+	.navbar-text-collapsed {
+		display: inherit;
+	}
+} 

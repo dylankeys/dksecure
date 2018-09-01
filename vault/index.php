@@ -90,11 +90,14 @@
 		<div class="container" style="padding-top: 20px;">
 		  <nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="../">DK Secure</a>
-			<span class="navbar-text">Logged in as <?php echo $user; ?> (<a href="logout.php">Log out</a>)</span>
+			<ul class="navbar-nav mr-auto">
+			</ul>
+			<span class="navbar-text navbar-text-nav">Logged in as <?php echo $user; ?> (<a href="logout.php">Log out</a>)</span>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<span class="navbar-text navbar-text-collapsed">Logged in as <?php echo $user; ?> (<a href="logout.php">Log out</a>)</span>
 			</div>
 		  </nav>
 		  <br>
