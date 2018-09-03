@@ -58,19 +58,24 @@
 		}
 
 	?>
+	
+		<div class="alert alert-primary" role="alert">
+			<h4 class="alert-heading">Welcome to DK Secure</h4>
+			<p>The secure file delivery system</p>
+			<hr>
+			<p class="mb-0">Enter a file ID below or click the link that was emailed.</p>
+		</div>
 
-      <form method="get" action="auth/">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Please provide a file ID to access</h5>
-            
-            <input type="text" name="id" class="form-control" placeholder="Enter file ID" required><br>
-            <button style="float:right" type="submit" class="btn btn-primary">Access&nbsp;&nbsp;<i class="fas fa-arrow-right"></i></button>
-            
-          </div>
-        </div>
-      </form>
-
+		<form method="get" action="auth/">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">Please provide a file ID to access</h5>
+				
+					<input type="text" name="id" class="form-control" placeholder="Enter file ID" required><br>
+					<button style="float:right" type="submit" class="btn btn-primary">Access&nbsp;&nbsp;<i class="fas fa-arrow-right"></i></button>
+				</div>
+			</div>
+		</form>
     </div>
 
 
