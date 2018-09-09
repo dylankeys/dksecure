@@ -42,13 +42,17 @@ html {
 }
 
 .btn-custom {
-    color: #fff;
-    background-color: #ffd000;
-    border-color: #ffd000;
+  color: #fff;
+  background-color: #ffd000;
+  border-color: #ffd000;
 }
 
 .btn-custom:hover {
-    color: #ffd000;
-    background-color: #fff;
-    border-color: #ffd000;
+  color: #ffd000;
+  background-color: #fff;
+  border-color: #ffd000;
+}
+
+p#copy_secret {
+  margin-bottom: unset !important;
 }
