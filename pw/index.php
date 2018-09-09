@@ -23,9 +23,11 @@
 	else if (isset($_POST["secret"])) {
 		$hash = bin2hex(mcrypt_create_iv(11, MCRYPT_DEV_URANDOM));
 		$new_secret = $_POST["secret"];
+		$attempts = 3;
+		$time = time();
 		
-		$dbQuery=$db->prepare("insert into passwords values (null,:secret,:hash)");
-		$dbParams = array('secret'=>$secret, 'hash'=>$hash);
+		$dbQuery=$db->prepare("insert into passwords values (null,:secret,:hash,:attempts,:time)");
+		$dbParams = array('secret'=>$secret, 'hash'=>$hash, 'attempts'=>$attempts, 'time'=>$time);
 		$dbQuery->execute($dbParams);
 
 		header("Location: ../pw?status=success&hash=" . $hash);
@@ -81,7 +83,7 @@
 	 			<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">Your password</h5>
-						<input type="text" name="secret" value="<?php echo $secret; ?>" readonly>
+						<input class="form-control" type="text" name="secret" value="<?php echo $secret; ?>" readonly><br>
 
 						<button style="float:right" onclick="setClipboard('<?php echo $secret; ?>')" class="btn btn-primary"><p id="copy_secret">Copy&nbsp;&nbsp;<i class="far fa-clone"></i></p></button>
 				
@@ -96,7 +98,7 @@
 			  		<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">Share password</h5>
-							<input class="form-control" type="text" name="secret" value="<?php echo $seret_url; ?>" readonly>
+							<input class="form-control" type="text" name="secret" value="<?php echo $seret_url; ?>" readonly><br>
 
 							<button style="float:right" onclick="setClipboard('<?php echo $seret_url; ?>')" class="btn btn-primary"><p id="copy_secret">Copy&nbsp;&nbsp;<i class="far fa-clone"></i></p></button>
 					
@@ -111,7 +113,7 @@
 					<div class="card-body">
 						<h5 class="card-title">Set password</h5>
 						
-						<input class="form-control" type="text" name="secret" placeholder="Set password">
+						<input class="form-control" type="text" name="secret" placeholder="Set password"><br>
 						
 						<button style="float:right" type="submit" class="btn btn-primary">Share&nbsp;&nbsp;<i class="fas fa-share-square"></i></button>
 			
