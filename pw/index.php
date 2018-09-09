@@ -74,7 +74,6 @@
 				<a class="navbar-brand" href="../">SharePass</a>
 				<ul class="navbar-nav mr-auto">
 				</ul>
-				<span class="navbar-text">Logged in as <?php echo $user; ?> (<a href="logout.php">Log out</a>)</span>
 		  	</nav>
 		  	<br>
 		  	<?php
@@ -113,7 +112,7 @@
 					<div class="card-body">
 						<h5 class="card-title">Set password</h5>
 						
-						<input class="form-control" type="text" name="secret" placeholder="Set password"><br>
+						<input class="form-control" type="text" name="secret" placeholder="Set password" required><br>
 						
 						<button style="float:right" type="submit" class="btn btn-primary">Share&nbsp;&nbsp;<i class="fas fa-share-square"></i></button>
 			
