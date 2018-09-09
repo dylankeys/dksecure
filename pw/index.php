@@ -27,7 +27,7 @@
 		$time = time();
 		
 		$dbQuery=$db->prepare("insert into passwords values (null,:secret,:hash,:attempts,:time)");
-		$dbParams = array('secret'=>$secret, 'hash'=>$hash, 'attempts'=>$attempts, 'time'=>$time);
+		$dbParams = array('secret'=>$new_secret, 'hash'=>$hash, 'attempts'=>$attempts, 'time'=>$time);
 		$dbQuery->execute($dbParams);
 
 		header("Location: ../pw?status=success&hash=" . $hash);
