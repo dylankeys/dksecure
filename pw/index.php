@@ -6,7 +6,7 @@
 	if(isset($_GET["id"])) {
 		$hash = $_GET["id"];
 		
-		$dbQuery=$db->prepare("select * from pw where hash=:hash");
+		$dbQuery=$db->prepare("select * from passwords where hash=:hash");
 		$dbParams = array('hash'=>$hash);
 		$dbQuery->execute($dbParams);
 		$fileCount = $dbQuery->rowCount();
