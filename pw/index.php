@@ -69,7 +69,7 @@
 
 		<div class="container" style="padding-top: 20px;">
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<a class="navbar-brand" href="../">DK Secure | PW</a>
+				<a class="navbar-brand" href="../">SharePass</a>
 				<ul class="navbar-nav mr-auto">
 				</ul>
 				<span class="navbar-text">Logged in as <?php echo $user; ?> (<a href="logout.php">Log out</a>)</span>
@@ -96,7 +96,7 @@
 			  		<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">Share password</h5>
-							<input type="text" name="secret" value="<?php echo $seret_url; ?>" readonly>
+							<input class="form-control" type="text" name="secret" value="<?php echo $seret_url; ?>" readonly>
 
 							<button style="float:right" onclick="setClipboard('<?php echo $seret_url; ?>')" class="btn btn-primary"><p id="copy_secret">Copy&nbsp;&nbsp;<i class="far fa-clone"></i></p></button>
 					
@@ -106,12 +106,12 @@
 		  		}
 		  		else {
 		  	?>
-		  	<form method="post" action="../pw">
+		  	<form method="post" action="index.php">
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">Set password</h5>
 						
-						<input type="text" name="secret" placeholder="Set password">
+						<input class="form-control" type="text" name="secret" placeholder="Set password">
 						
 						<button style="float:right" type="submit" class="btn btn-primary">Share&nbsp;&nbsp;<i class="fas fa-share-square"></i></button>
 			
