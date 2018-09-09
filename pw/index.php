@@ -91,7 +91,7 @@
 
 		 	<?php
 		  		}
-		  		else if (isset($status) && $status == "success") {
+		  		else if (isset($_GET["status"]) && $_GET["status"] == "success") {
 		  			$seret_url = "http://secure.dylankeys.com/pw?id=".$_GET['hash'];
 		  		?>
 			  		<div class="card">
