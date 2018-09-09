@@ -50,7 +50,7 @@
     <title>DK Secure | Auth</title>
 	
 	<!--DK CSS-->
-	<link href="../styles.css" rel="stylesheet">
+	<link href="../css/styles.css" rel="stylesheet">
 	
 	</head>
 
