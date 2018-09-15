@@ -16,7 +16,7 @@ $dbQuery->execute();
 
 while ($dbRow = $dbQuery->fetch(PDO::FETCH_ASSOC)) {
 	$passwordID = $dbRow["id"];
-	$timecreated = strtotime($dbRow["timecreated"]);
+	$timecreated = $dbRow["timecreated"];
 	$expirytime = strtotime($dbRow["expirytime"]);
 
 	//If a password's timecreated is below the expiretime then add to array for deletion 
