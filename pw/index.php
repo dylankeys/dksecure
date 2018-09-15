@@ -86,7 +86,18 @@
 				</ul>
 		  	</nav>
 		  	<br>
+
 		  	<?php
+		  		if (isset($_GET["error"])) {
+				
+					echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<strong>Error!</strong> '. $_GET["error"] .'
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</div>';
+				}
+
 		  		if (isset($secret) && isset($_POST["access"]) && $_POST["access"] == 1) {
 		  			if (!empty($_POST["email"])) {
 		  				$error = "Password access error, please try again.";
