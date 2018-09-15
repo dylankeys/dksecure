@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	include("../config.php");
+	include("lib.php");
 
 	$error = "This password has expired or has been viewed the maximum amount of times and is no longer available.";
 	
@@ -108,16 +109,15 @@
 		  			}
 		  		}
 		  		else if (isset($secret)) {
-		  			$formAction = "../pw?id=" . $hash;
 		 	?>
 	 			<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">Your password</h5>
-						<form action="<?php echo $formAction; ?>" method="post">
+						<form action="?id=<?php echo $hash; ?>" method="post">
 							<input type="hidden" name="access" value="1">
 							<input type="text" name="email" id="email" class="access-check">
 
-							<button class="btn btn-primary btn-lg btn-block"><p id="copy_secret">Reveal password&nbsp;&nbsp;<i class="fas fa-magic"></i></p></button>
+							<button class="btn btn-primary btn-block"><p id="copy_secret">Reveal password&nbsp;&nbsp;<i class="fas fa-magic"></i></p></button>
 						</form>
 					</div>
 				</div>
@@ -158,8 +158,6 @@
 							</div>
 						</div>
 						
-
-						<br>
 						<button style="float:right" type="submit" class="btn btn-primary">Share&nbsp;&nbsp;<i class="fas fa-share-square"></i></button>
 			
 					</div>
