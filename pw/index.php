@@ -141,7 +141,7 @@
 			  		<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">Share password</h5>
-							<input class="form-control" type="text" name="secret" value="<?php echo $seret_url; ?>" readonly><br>
+							<input class="form-control" type="text" name="secret" value="<?php echo $seret_url; ?>" readonly>
 
 							<button style="float:right" onclick="setClipboard('<?php echo $seret_url; ?>')" class="btn btn-primary"><p id="copy_secret">Copy&nbsp;&nbsp;<i class="far fa-clone"></i></p></button>
 					
