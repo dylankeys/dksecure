@@ -2,8 +2,9 @@
 	session_start();
 	include("../config.php");
 
+	$error = "This password has expired or has been viewed the maximum amount of times and is no longer available.";
 	
-	if(isset($_GET["id"])) {
+	if (isset($_GET["id"])) {
 		$hash = $_GET["id"];
 		
 		$dbQuery=$db->prepare("select * from passwords where hash=:hash");
@@ -11,23 +12,30 @@
 		$dbQuery->execute($dbParams);
 		$fileCount = $dbQuery->rowCount();
 
-		if($fileCount < 1) {
-			$error = "This password has expired or has been viewed the maximum amount of times and is no longer available.";
+		if ($fileCount < 1) {
 			header("Location: ../pw?error=" . $error);
 		}
 		
 		$dbRow=$dbQuery->fetch(PDO::FETCH_ASSOC);
 		
+		$secretID = $dbRow["id"];
 		$secret = $dbRow["secret"];
+		$accessCount = $dbRow["access_count"];
+
+		if ($accessCount < 1) {
+			header("Location: ../pw?error=" . $error);
+		}
+
 	}
 	else if (isset($_POST["secret"])) {
 		$hash = bin2hex(mcrypt_create_iv(11, MCRYPT_DEV_URANDOM));
-		$new_secret = $_POST["secret"];
+		$newSecret = $_POST["secret"];
+		$expiryTime = $_POST["expire"];
 		$attempts = 3;
 		$time = time();
 		
-		$dbQuery=$db->prepare("insert into passwords values (null,:secret,:hash,:attempts,:time)");
-		$dbParams = array('secret'=>$new_secret, 'hash'=>$hash, 'attempts'=>$attempts, 'time'=>$time);
+		$dbQuery=$db->prepare("insert into passwords values (null,:secret,:hash,:attempts,:time,:expirytime)");
+		$dbParams = array('secret'=>$newSecret, 'hash'=>$hash, 'attempts'=>$attempts, 'time'=>$time, 'expirytime'=>$expiryTime);
 		$dbQuery->execute($dbParams);
 
 		header("Location: ../pw?status=success&hash=" . $hash);
@@ -43,7 +51,7 @@
 		<meta name="author" content="">
 		<link rel="icon" href="pix/favicon.ico">
 
-		<title>DK Secure | Vault</title>
+		<title>SharePass</title>
 
 		<!-- Bootstrap core CSS -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
@@ -78,15 +86,39 @@
 		  	</nav>
 		  	<br>
 		  	<?php
-		  		if (isset($secret)) {
+		  		if (isset($secret) && isset($_POST["access"]) && $_POST["access"] == 1) {
+		  			if (!empty($_POST["email"])) {
+		  				$error = "Password access error, please try again.";
+		  				echo "<script>window.location.href = '../pw?error=".$error."'</script>";
+		  			}
+		  			else {
+		  				secretAccess($secretID);
+		  	?>
+				  		<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">Your password</h5>
+								<input class="form-control" type="text" name="secret" value="<?php echo $secret; ?>" readonly><br>
+
+								<button style="float:right" onclick="setClipboard('<?php echo $secret; ?>')" class="btn btn-primary"><p id="copy_secret">Copy&nbsp;&nbsp;<i class="far fa-clone"></i></p></button>
+						
+							</div>
+						</div>
+
+		  	<?php
+		  			}
+		  		}
+		  		else if (isset($secret)) {
+		  			$formAction = "../pw?id=" . $hash;
 		 	?>
 	 			<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">Your password</h5>
-						<input class="form-control" type="text" name="secret" value="<?php echo $secret; ?>" readonly><br>
+						<form action="<?php echo $formAction; ?>" method="post">
+							<input type="hidden" name="access" value="1">
+							<input type="text" name="email" id="email" class="access-check">
 
-						<button style="float:right" onclick="setClipboard('<?php echo $secret; ?>')" class="btn btn-primary"><p id="copy_secret">Copy&nbsp;&nbsp;<i class="far fa-clone"></i></p></button>
-				
+							<button class="btn btn-primary btn-lg btn-block"><p id="copy_secret">Reveal password&nbsp;&nbsp;<i class="fas fa-magic"></i></p></button>
+						</form>
 					</div>
 				</div>
 
@@ -113,8 +145,21 @@
 					<div class="card-body">
 						<h5 class="card-title">Set password</h5>
 						
-						<input class="form-control" type="text" name="secret" placeholder="Set password" required><br>
+						<div class="form-row">
+    						<div class="form-group col-md-8">
+								<input class="form-control" type="text" name="secret" placeholder="Set password" required>
+							</div>
+							<div class="form-group col-md-4">
+								<select class="form-control" name="expire" required>
+									<option value="-1 day">Day</option>
+									<option value="-1 week" selected>Week</option>
+									<option value="-2 weeks">Fortnight</option>
+								</select>
+							</div>
+						</div>
 						
+
+						<br>
 						<button style="float:right" type="submit" class="btn btn-primary">Share&nbsp;&nbsp;<i class="fas fa-share-square"></i></button>
 			
 					</div>

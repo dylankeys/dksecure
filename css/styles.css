@@ -45,6 +45,15 @@ html {
   border-color: #ffd000;
 }
 
+/* SHARE PASS */
+
 p#copy_secret {
   margin-bottom: unset !important;
 }
+
+.access-check {
+  position: absolute;
+  left: -1000px;
+  top: -1000px
+}
+
