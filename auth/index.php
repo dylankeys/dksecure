@@ -151,7 +151,7 @@
 					
 					<input type="hidden" name="hash" value="<?php echo $hash; ?>">
 					<input type="hidden" name="action" value="<?php echo $action; ?>">
-					<button style="float:right" type="submit" class="btn btn-primary"></button>
+					<button style="float:right" type="submit" class="btn btn-primary"><?php echo $submit; ?></button>
 					
 				</div>
 			</div>
