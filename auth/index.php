@@ -42,7 +42,7 @@
 	else {
 		$title = 'Enter email address (ID: '.$hash.')';
 		$icon = '<i class="fas fa-user-circle"></i>';
-		$submit = 'Send verification</i>';
+		$submit = 'Send verification';
 		$action = 'login';
 		$field = 'email';
 		$placeholder = 'Email';
