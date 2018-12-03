@@ -1,6 +1,7 @@
 <?php
 	session_start();
     include("../config.php");
+	include("../lib.php");
 
     unset($_SESSION["user"]);
     unset($_SESSION["auth"]);
@@ -26,9 +27,48 @@
     if (isset($_POST["action"]) && $_POST["action"]=="login")
     {
         $_SESSION["user"] = $_POST["email"];
-
-        header("Location: ../vault/?id=" . $_POST["hash"]);
-
+		$hash = $_POST["hash"];
+		
+		send_verification($_SESSION["user"], $hash);
+		
+		$title = 'Enter verification code to access file (ID: '.$_POST["hash"].')';
+		$icon = '<i class="fas fa-lock"></i>';
+		$submit = 'Access&nbsp;&nbsp;<i class="fas fa-unlock"></i>';
+		$action = 'vault';
+		$field = 'code';
+		$placeholder = 'Verification code';
+		
+    }
+	else {
+		$title = 'Enter email address (ID: '.$hash.')';
+		$icon = '<i class="fas fa-user-circle"></i>';
+		$submit = 'Send verification</i>';
+		$action = 'login';
+		$field = 'email';
+		$placeholder = 'Email';
+	}
+	
+	if (isset($_POST["action"]) && $_POST["action"]=="verify")
+    {
+        $dbQuery=$db->prepare("select vericode from verification where email=:email and hash=:hash");
+		$dbParams = array('email'=>$_SESSION["user"], 'hash'=>$_POST["hash"]);
+		$dbQuery->execute($dbParams);
+		$dbRow=$dbQuery->fetch(PDO::FETCH_ASSOC);
+		
+		$vericode = $dbRow["vericode"];
+		$usercode = $_POST["code"];
+		
+		if ($usercode == $vericode) {
+			$dbQuery=$db->prepare("delete from verification where vericode=:vericode");
+			$dbParams = array('vericode'=>$vericode);
+			$dbQuery->execute($dbParams);
+			
+			header("Location: ../vault/?id=" . $_POST["hash"]);
+		}
+		else {
+			$error = "Verification code was not valid, please try again.";
+			header("Location: ../?error=" . $error);
+		}
     }
     else
     {
@@ -84,24 +124,34 @@
 				</button>
 			</div>';
     }
+	else if (isset($_SESSION["user"])) {
+		echo '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+				<strong>Info</strong> A verification code has been sent to your email address. Please enter this below.
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>';
+	}
 
 ?>
 	
 		<form name="login" method="post" action="index.php">
 			<div class="card">
 				<div class="card-body">
-					<h5 class="card-title">Provide email to access file (ID: <?php echo $hash; ?>)</h5>
+					<h5 class="card-title">
+						<?php echo $title; ?>
+					</h5>
 					
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
-							<span class="input-group-text" id="user-addon"><i class="fas fa-user-circle"></i></span>
+							<span class="input-group-text" id="user-addon"><?php echo $icon; ?></span>
 						</div>
-						<input type="text" class="form-control" placeholder="Email" name="email" aria-describedby="user-addon">
+						<input type="text" class="form-control" placeholder="<?php echo $placeholder; ?>" name="<?php echo $field; ?>" aria-describedby="user-addon">
 					</div>
 					
 					<input type="hidden" name="hash" value="<?php echo $hash; ?>">
-					<input type="hidden" name="action" value="login">
-					<button style="float:right" type="submit" class="btn btn-primary">Access&nbsp;&nbsp;<i class="fas fa-unlock"></i></button>
+					<input type="hidden" name="action" value="<?php echo $action; ?>">
+					<button style="float:right" type="submit" class="btn btn-primary"></button>
 					
 				</div>
 			</div>
