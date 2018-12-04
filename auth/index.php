@@ -6,8 +6,7 @@
     unset($_SESSION["user"]);
     unset($_SESSION["auth"]);
 
-    if (isset($_POST["action"]) && $_POST["action"]=="login")
-    {
+    if (isset($_POST["action"]) && $_POST["action"]=="login") {
         $_SESSION["user"] = $_POST["email"];
 		$hash = $_POST["hash"];
 		
@@ -22,7 +21,7 @@
 		
     }
 	else {
-		if(isset($_GET["id"])) {
+		if(isset($_GET["id"]) && $_POST["action"]!="verify") {
 			$hash = $_GET["id"];
 			
 			$dbQuery=$db->prepare("select * from files where hash=:hash");
@@ -48,8 +47,7 @@
 		$placeholder = 'Email';
 	}
 	
-	if (isset($_POST["action"]) && $_POST["action"]=="verify")
-    {
+	if (isset($_POST["action"]) && $_POST["action"]=="verify") {
         $dbQuery=$db->prepare("select vericode from verification where email=:email and hash=:hash");
 		$dbParams = array('email'=>$_SESSION["user"], 'hash'=>$_POST["hash"]);
 		$dbQuery->execute($dbParams);
@@ -126,7 +124,7 @@
     }
 	else if (isset($_SESSION["user"])) {
 		echo '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-				<strong>Info</strong> A verification code has been sent to your email address. Please enter this below.
+				<strong><i class="fas fa-info-circle"></i></strong> A verification code has been sent to your email address. Please enter this below.
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 				</button>
