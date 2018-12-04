@@ -7,6 +7,7 @@
     unset($_SESSION["auth"]);
 
     if (isset($_POST["action"]) && $_POST["action"]=="login") {
+		echo "login" . $_SESSION["user"];
         $_SESSION["user"] = $_POST["email"];
 		$hash = $_POST["hash"];
 		
@@ -21,6 +22,7 @@
 		
     }
 	else if (isset($_POST["action"]) && $_POST["action"]=="verify") {
+		echo "verify" .$_SESSION["user"];
         $dbQuery=$db->prepare("select vericode from verification where email=:email and hash=:hash");
 		$dbParams = array('email'=>$_SESSION["user"], 'hash'=>$_POST["hash"]);
 		$dbQuery->execute($dbParams);
@@ -42,6 +44,7 @@
 		}*/
     }
 	else if(isset($_GET["id"])) {
+		echo "id" . $_SESSION["user"];
 		$hash = $_GET["id"];
 		
 		$dbQuery=$db->prepare("select * from files where hash=:hash");
@@ -65,6 +68,7 @@
 		$error = "File ID not set. Please enter a valid file ID below.";
 		header("Location: ../?error=" . $error);
 	}
+	echo " after else " . $_SESSION["user"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
