@@ -20,34 +20,7 @@
 		$placeholder = 'Verification code';
 		
     }
-	else {
-		if(isset($_GET["id"]) && $_POST["action"]!="verify") {
-			$hash = $_GET["id"];
-			
-			$dbQuery=$db->prepare("select * from files where hash=:hash");
-			$dbParams = array('hash'=>$hash);
-			$dbQuery->execute($dbParams);
-			$fileCount = $dbQuery->rowCount();
-
-			if($fileCount < 1) {
-				$error = "File does not exist. Please enter a valid file ID below.";
-				header("Location: ../?error=" . $error);
-			}
-		}
-		else {
-			$error = "File ID not set. Please enter a valid file ID below.";
-			header("Location: ../?error=" . $error);
-		}
-		
-		$title = 'Enter email address (ID: '.$hash.')';
-		$icon = '<i class="fas fa-user-circle"></i>';
-		$submit = 'Send verification';
-		$action = 'login';
-		$field = 'email';
-		$placeholder = 'Email';
-	}
-	
-	if (isset($_POST["action"]) && $_POST["action"]=="verify") {
+	else if (isset($_POST["action"]) && $_POST["action"]=="verify") {
         $dbQuery=$db->prepare("select vericode from verification where email=:email and hash=:hash");
 		$dbParams = array('email'=>$_SESSION["user"], 'hash'=>$_POST["hash"]);
 		$dbQuery->execute($dbParams);
@@ -68,8 +41,30 @@
 			header("Location: ../?error=" . $error);
 		}
     }
-    else
-    {
+	else if(isset($_GET["id"])) {
+		$hash = $_GET["id"];
+		
+		$dbQuery=$db->prepare("select * from files where hash=:hash");
+		$dbParams = array('hash'=>$hash);
+		$dbQuery->execute($dbParams);
+		$fileCount = $dbQuery->rowCount();
+		
+		$title = 'Enter email address (ID: '.$hash.')';
+		$icon = '<i class="fas fa-user-circle"></i>';
+		$submit = 'Send verification';
+		$action = 'login';
+		$field = 'email';
+		$placeholder = 'Email';
+
+		if($fileCount < 1) {
+			$error = "File does not exist. Please enter a valid file ID below.";
+			header("Location: ../?error=" . $error);
+		}
+	}
+	else {
+		$error = "File ID not set. Please enter a valid file ID below.";
+		header("Location: ../?error=" . $error);
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -165,6 +160,3 @@
 </body>
 
 </html>
-<?php
-	}
-?>
