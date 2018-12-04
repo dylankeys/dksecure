@@ -1,15 +1,15 @@
 <?php
-	session_save_path('/web/secure.dylankeys.com/appdata/sessions');
-	ini_set('session.gc_probability', 1);*
 	session_start();
     include("../config.php");
 	include("../lib.php");
+	
+	ini_set("display_errors",1);
+    error_reporting(E_ALL);
 
     unset($_SESSION["user"]);
     unset($_SESSION["auth"]);
 
     if (isset($_POST["action"]) && $_POST["action"]=="login") {
-		echo "login" . $_SESSION["user"];
         $_SESSION["user"] = $_POST["email"];
 		$hash = $_POST["hash"];
 		
@@ -24,7 +24,6 @@
 		
     }
 	else if (isset($_POST["action"]) && $_POST["action"]=="verify") {
-		echo "verify" .$_SESSION["user"];
         $dbQuery=$db->prepare("select vericode from verification where email=:email and hash=:hash");
 		$dbParams = array('email'=>$_SESSION["user"], 'hash'=>$_POST["hash"]);
 		$dbQuery->execute($dbParams);
@@ -33,7 +32,7 @@
 		$vericode = $dbRow["vericode"];
 		$usercode = $_POST["code"];
 		
-		/*if ($usercode == $vericode) {
+		if ($usercode == $vericode) {
 			$dbQuery=$db->prepare("delete from verification where vericode=:vericode");
 			$dbParams = array('vericode'=>$vericode);
 			$dbQuery->execute($dbParams);
@@ -43,10 +42,9 @@
 		else {
 			$error = "Verification code was not valid, please try again.";
 			header("Location: ../?error=" . $error);
-		}*/
+		}
     }
 	else if(isset($_GET["id"])) {
-		echo "id" . $_SESSION["user"];
 		$hash = $_GET["id"];
 		
 		$dbQuery=$db->prepare("select * from files where hash=:hash");
@@ -70,7 +68,6 @@
 		$error = "File ID not set. Please enter a valid file ID below.";
 		header("Location: ../?error=" . $error);
 	}
-	echo " after else " . $_SESSION["user"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -131,7 +128,7 @@
 				</button>
 			</div>';
 	}
-	echo 'Vericode: '.$vericode.' Usercode: '.$usercode. ' User:' .$_SESSION["user"]. ' Hash: ' .$_POST["hash"] . ' Session ID: ' . session_id();
+
 ?>
 	
 		<form name="login" method="post" action="index.php">
