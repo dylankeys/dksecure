@@ -29,7 +29,7 @@
 		$vericode = $dbRow["vericode"];
 		$usercode = $_POST["code"];
 		
-		if ($usercode == $vericode) {
+		/*if ($usercode == $vericode) {
 			$dbQuery=$db->prepare("delete from verification where vericode=:vericode");
 			$dbParams = array('vericode'=>$vericode);
 			$dbQuery->execute($dbParams);
@@ -39,7 +39,7 @@
 		else {
 			$error = "Verification code was not valid, please try again.";
 			header("Location: ../?error=" . $error);
-		}
+		}*/
     }
 	else if(isset($_GET["id"])) {
 		$hash = $_GET["id"];
@@ -125,7 +125,7 @@
 				</button>
 			</div>';
 	}
-
+	echo 'Vericode: '.$vericode.' Usercode: '.$usercode;
 ?>
 	
 		<form name="login" method="post" action="index.php">
