@@ -125,7 +125,7 @@
 				</button>
 			</div>';
 	}
-	echo 'Vericode: '.$vericode.' Usercode: '.$usercode. ' User:' .$_SESSION["user"]. ' Hash: ' .$_POST["hash"];
+	echo 'Vericode: '.$vericode.' Usercode: '.$usercode. ' User:' .$_SESSION["user"]. ' Hash: ' .$_POST["hash"] . ' Session ID: ' . session_id();
 ?>
 	
 		<form name="login" method="post" action="index.php">
