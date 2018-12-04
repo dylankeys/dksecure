@@ -15,7 +15,7 @@
 		$title = 'Enter verification code to access file (ID: '.$_POST["hash"].')';
 		$icon = '<i class="fas fa-lock"></i>';
 		$submit = 'Access&nbsp;&nbsp;<i class="fas fa-unlock"></i>';
-		$action = 'vault';
+		$action = 'verify';
 		$field = 'code';
 		$placeholder = 'Verification code';
 		
