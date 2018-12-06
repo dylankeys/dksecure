@@ -11,7 +11,7 @@
         $dbQuery->execute($dbParams);
         $dbRow=$dbQuery->fetch(PDO::FETCH_ASSOC);
 
-        $file = $dataroot . $dbRow["filename"];
+        $file = $dataroot .'vault/'. $dbRow["filename"];
 		
 		$dbQuery=$db->prepare("insert into downloads values(null,:fileid,:user,:time)");
         $dbParams = array('fileid'=>$fileid, 'user'=>$user, 'time'=>$time);
