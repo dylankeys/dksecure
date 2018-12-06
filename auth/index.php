@@ -2,12 +2,6 @@
 	session_start();
     include("../config.php");
 	include("../lib.php");
-	
-	ini_set("display_errors",1);
-    error_reporting(E_ALL);
-
-    unset($_SESSION["user"]);
-    unset($_SESSION["auth"]);
 
     if (isset($_POST["action"]) && $_POST["action"]=="login") {
         $_SESSION["user"] = $_POST["email"];
