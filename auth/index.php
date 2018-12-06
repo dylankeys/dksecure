@@ -26,11 +26,11 @@
 		$vericode = $dbRow["vericode"];
 		$usercode = $_POST["code"];
 		
+		$dbQuery=$db->prepare("delete from verification where email=:email and hash=:hash and vericode=:vericode");
+		$dbParams = array('email'=>$_SESSION["user"], 'hash'=>$_POST["hash"], 'vericode'=>$_POST["vericode"]);
+		$dbQuery->execute($dbParams);
+		
 		if ($usercode == $vericode) {
-			$dbQuery=$db->prepare("delete from verification where vericode=:vericode");
-			$dbParams = array('vericode'=>$vericode);
-			$dbQuery->execute($dbParams);
-			
 			header("Location: ../vault/?id=" . $_POST["hash"]);
 		}
 		else {
