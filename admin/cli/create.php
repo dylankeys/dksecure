@@ -5,7 +5,7 @@
 
 define('CLI_SCRIPT', true);
 
-include("../../config.php");
+include("config.php");
 
 $options = getopt('fahg');
 
