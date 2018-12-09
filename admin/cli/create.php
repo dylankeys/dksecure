@@ -51,13 +51,13 @@ else {
 	  $hash = bin2hex(mcrypt_create_iv(11, MCRYPT_DEV_URANDOM));
 	}
 	
-	/*$dbQuery=$db->prepare("insert into `files` values (null,:hash,:file");
+	$dbQuery=$db->prepare("insert into `files` values (null,:hash,:file)");
 	$dbParams = array('file'=>$file,'hash'=>$hash);
 	$dbQuery->execute($dbParams);
 	
-	$dbQuery=$db->prepare("insert into `auth` values (null,:hash,:auth");
+	$dbQuery=$db->prepare("insert into `auth` values (null,:hash,:auth)");
 	$dbParams = array('auth'=>$auth,'hash'=>$hash);
-	$dbQuery->execute($dbParams);*/
+	$dbQuery->execute($dbParams);
 
 	echo "SUCCESS! The file has been added to database\n";
 	echo "Authorised users: " . $auth . "\n";
