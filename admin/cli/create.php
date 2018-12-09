@@ -7,9 +7,16 @@ define('CLI_SCRIPT', true);
 
 include("config.php");
 
-$options = getopt('fahg');
+$longopts  = array(
+    "filename::",
+    "auth::",    
+	"group::",	
+    "help",
+);
 
-if (isset($options['h']) || !isset($options['f'])) {
+$options = getopt($longopts);
+
+if (isset($options['help']) || !isset($options['filename'])) {
   echo "Add a file to the secure download application\n";
   echo "=============================================\n";
   echo "Options\n";
@@ -21,24 +28,24 @@ if (isset($options['h']) || !isset($options['f'])) {
   echo "=============================================\n";
 }
 else {
-	if (isset($options['f'])) {
-		$file=$options['f'];
+	if (isset($options['filename'])) {
+		$file=$options['filename'];
 	}
 	else {
-	  echo "ERROR: -f must be set to add a new file\n";
+	  echo "ERROR: --filename must be set to add a new file\n";
 	  exit(1);
 	}
 
-	if (isset($options['a'])) {
-	  $auth=$options['a'];
+	if (isset($options['auth'])) {
+	  $auth=$options['auth'];
 	}
 	else {
-	  echo "ERROR: -a must be set to add a new file\n";
+	  echo "ERROR: --auth must be set to add a new file\n";
 	  exit(1);
 	}
 
-	if (isset($options['g'])) {
-	  $hash=$options['g'];
+	if (isset($options['group'])) {
+	  $hash=$options['group'];
 	}
 	else {
 	  $hash = bin2hex(mcrypt_create_iv(11, MCRYPT_DEV_URANDOM));
@@ -53,4 +60,4 @@ $dbQuery->execute($dbParams);
 
 echo "SUCCESS! The file has been added to database\n";
 echo "Authorised users: " . $auth . "\n";
-echo "Hash (can be used to group files): " . $hash;
+echo "Hash (can be used to group files): " . $hash . "\n";
