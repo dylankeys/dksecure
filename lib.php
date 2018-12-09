@@ -19,7 +19,7 @@ function send_verification($email, $hash) {
 	<title>DK Secure // Verification</title>
 	</head>
 	<body>
-	<p>Please use the following verification on the DK Secure application to confirm your identity</p>
+	<p>Please use the following verification code on the DK Secure application to confirm your identity</p>
 	<p><strong>".$vericode."</strong></p>
 	</body>
 	</html>
@@ -30,7 +30,7 @@ function send_verification($email, $hash) {
 	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
 	// More headers
-	$headers .= 'From: <admin@dylankeys.com>' . "\r\n";
+	$headers .= 'From: <secure@dylankeys.com>' . "\r\n";
 
 	mail($to,$subject,$message,$headers);
 }
