@@ -21,10 +21,10 @@ if (isset($options['help']) || !isset($options['filename'])) {
   echo "=============================================\n";
   echo "Options\n";
   echo "=============================================\n";
-  echo "-f    Filename\n";
-  echo "-a    Email addresses (comma separated list)\n";
-  echo "-h    Help\n";
-  echo "-g    Group (enter hash)\n";
+  echo "--filename	Filename\n";
+  echo "--auth		Email addresses (comma separated list)\n";
+  echo "--group		Group (enter existing hash to group, otherwise new hash will be generated)\n";
+  echo "--help		Help\n";
   echo "=============================================\n";
 }
 else {
@@ -58,4 +58,5 @@ else {
 	echo "SUCCESS! The file has been added to database\n";
 	echo "Authorised users: " . $auth . "\n";
 	echo "Hash (can be used to group files): " . $hash . "\n";
+	echo "Secure URL: https://secure.dylankeys.com/auth/?id=" . $hash . "\n";
 }
