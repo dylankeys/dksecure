@@ -14,7 +14,7 @@ $longopts  = array(
     "help",
 );
 
-$options = getopt($longopts);
+$options = getopt('', $longopts);
 
 if (isset($options['help']) || !isset($options['filename'])) {
   echo "Add a file to the secure download application\n";
@@ -50,14 +50,12 @@ else {
 	else {
 	  $hash = bin2hex(mcrypt_create_iv(11, MCRYPT_DEV_URANDOM));
 	}
+	
+	$dbQuery=$db->prepare("insert into users values (null,:file,:auth,:hash");
+	$dbParams = array('file'=>$file,'auth'=>$auth,'hash'=>$hash);
+	$dbQuery->execute($dbParams);
+
+	echo "SUCCESS! The file has been added to database\n";
+	echo "Authorised users: " . $auth . "\n";
+	echo "Hash (can be used to group files): " . $hash . "\n";
 }
-
-
-
-$dbQuery=$db->prepare("insert into users values (null,:file,:auth,:hash");
-$dbParams = array('file'=>$file,'auth'=>$auth,'hash'=>$hash);
-$dbQuery->execute($dbParams);
-
-echo "SUCCESS! The file has been added to database\n";
-echo "Authorised users: " . $auth . "\n";
-echo "Hash (can be used to group files): " . $hash . "\n";
