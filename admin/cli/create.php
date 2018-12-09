@@ -51,8 +51,12 @@ else {
 	  $hash = bin2hex(mcrypt_create_iv(11, MCRYPT_DEV_URANDOM));
 	}
 	
-	$dbQuery=$db->prepare("insert into users values (null,:file,:auth,:hash");
-	$dbParams = array('file'=>$file,'auth'=>$auth,'hash'=>$hash);
+	$dbQuery=$db->prepare("insert into files values (null,:hash,:file");
+	$dbParams = array('file'=>$file,'hash'=>$hash);
+	$dbQuery->execute($dbParams);
+	
+	$dbQuery=$db->prepare("insert into auth values (null,:hash,:auth");
+	$dbParams = array('auth'=>$auth,'hash'=>$hash);
 	$dbQuery->execute($dbParams);
 
 	echo "SUCCESS! The file has been added to database\n";
